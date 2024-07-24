@@ -82,11 +82,13 @@ At this point, you should be able to open Quartus and Questa from the terminal b
 # Adding icons to the system
 
 ## Quartus Icon
+
 Copy the generated icon on the Desktop (`Quartus (Quartus Prime 22.1std) Lite Edition.desktop`) to the following directory:
 
 ```bash
 /home/YOUR_USER/.local/share/applications
 ```
+
 If this `.desktop` file does not exist, you must create one in the described folder:
 
 ```bash
@@ -113,6 +115,7 @@ Path=/home/contardii/intelFPGA/22.1std
 The icon for Questa must be created entirely manually:
 
 Access the folder through the terminal
+
 ```bash
 cd /home/YOUR_USER/.local/share/applications
 ```
@@ -144,6 +147,7 @@ Once the `.desktop` files have been created, if you execute them by clicking on 
 Still in the same folder, if there are no `defaults.list`, you will need to create it. To do this, right-click on any blank space in the file manager and open it in the terminal. Enter this command:
 
 Access the folder through the terminal
+
 ```bash
 cd /home/YOUR_USER/.local/share/applications
 nano defaults.list 
@@ -166,7 +170,35 @@ sudo update-mime-database /usr/share/mime
 
 At this stage, your applications should appear in your system's applications.
 
+# USB Blaster Drivers
+
+In my case, I faced issues with the operation of the JTAG USB Blaster. The following steps were followed:
+
+1. Open a terminal and type:
+
+```
+gedit /etc/udev/rules.d/altera-usb-blaster.rules 
+```
+
+2. Inside the file, paste the following content:
+
+```
+ATTR{idVendor}=="09fb", ATTR{idProduct}=="6001", MODE="666"
+ATTR{idVendor}=="09fb", ATTR{idProduct}=="6002", MODE="666"
+ATTR{idVendor}=="09fb", ATTR{idProduct}=="6003", MODE="666"
+ATTR{idVendor}=="09fb", ATTR{idProduct}=="6010", MODE="666"
+ATTR{idVendor}=="09fb", ATTR{idProduct}=="6810", MODE="666"
+```
+
+3. Restart your computer (This step is important).
+4. To verify if the JTAG was detected, access the application within the Quartus installation directory:
+
+```
+/opt/altera/intelFPGA/20.1/quartus/bin/jtagconfig
+```
+
 # References
+
 https://github.com/Jefferson-Lopes/quartus-installation
 
 https://github.com/arthurmteodoro/install-quartus-linux?tab=readme-ov-file#preparando-o-sistema
